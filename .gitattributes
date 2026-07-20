@@ -1,0 +1,7 @@
+# The repo is edited on Windows but deployed to a Linux droplet.
+# These files MUST use LF, otherwise the shebang / parsing fails on the server.
+*.sh         text eol=lf
+*.yaml       text eol=lf
+*.yml        text eol=lf
+*.json       text eol=lf
+.env.example text eol=lf
