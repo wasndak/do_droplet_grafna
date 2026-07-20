@@ -260,7 +260,7 @@ export K6_INFLUXDB_USERNAME=admin
 export K6_INFLUXDB_PASSWORD=your-password
 export K6_OUT="influxdb=http://SERVER_IP:8086/k6"
 
-k6 run main.ts
+k6 run -e K6_INFLUXDB_USERNAME=admin -e K6_INFLUXDB_PASSWORD=your-password -e K6_OUT="influxdb=http://SERVER_IP:8086/k6" main.ts
 ```
 
 Quick variant for a manual run — credentials in the URL:
