@@ -118,7 +118,7 @@ nano .env
 Example:
 
 ```env
-GRAFANA_ROOT_URL=http://SERVER_IP:3000
+GRAFANA_ROOT_URL=http://DROPLET_IP:3000
 
 INFLUX_DB=k6
 INFLUX_USERNAME=admin
@@ -210,18 +210,18 @@ docker compose logs -f
 
 ---
 
-# Access
+# Access GRAFNA
 
 Grafana (login from `.env`):
 
 ```
-http://SERVER_IP:3000
+http://DROPLET_IP:3000
 ```
 
 InfluxDB HTTP API (1.8 has no UI, API only):
 
 ```
-http://SERVER_IP:8086
+http://DROPLET_IP:8086
 ```
 
 ---
@@ -234,6 +234,17 @@ Use the values from `.env`:
 username: admin
 password: ********
 ```
+
+## Create grafana datasource
+Data Sources -> Add new datasource -> influxdb
+
+name: influxdb
+url: http://influxdb:8086
+basic auth: on
+database: k6
+
+## Import k6 dashboard
+Open dashboards and inport file: grafana\provisioning\dashboards\k6-dashboard.json
 
 ---
 
@@ -256,10 +267,11 @@ InfluxDB requires authentication, so k6 must send credentials. Recommended way
 (the password stays out of the command line and CI logs):
 
 ```bash
-export K6_INFLUXDB_USERNAME=admin
-export K6_INFLUXDB_PASSWORD=your-password
-export K6_OUT="influxdb=http://SERVER_IP:8086/k6"
-
+export K6_OUT: influxdb
+export K6_INFLUXDB_ADDR: http://DROPLET_IP:8086
+export K6_INFLUXDB_DB: k6
+export K6_INFLUXDB_USERNAME: admin
+export K6_INFLUXDB_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
 k6 run -e K6_INFLUXDB_USERNAME=admin -e K6_INFLUXDB_PASSWORD=your-password -e K6_OUT="influxdb=http://SERVER_IP:8086/k6" main.ts
 ```
 
